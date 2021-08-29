@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from PIL import Image, ImageOps
 import elasticdeform  # https://pypi.org/project/elasticdeform/
 import tensorflow as tf
+from matplotlib import pyplot
 from tensorflow.keras import backend as K
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Input, Lambda, Conv2D, Dropout, MaxPooling2D, Concatenate, Conv2DTranspose
@@ -47,6 +48,7 @@ random.shuffle(remaining_val_ids)
 
 train_raw_images, val_raw_images, train_label_images, val_label_images = dict(), dict(), dict(), dict()
 
+
 while remaining_val_ids:  # STRUCTURE FOR RESAMPLING
     for __ in range(NUM_VAL_IMAGES):
         val_ids = remaining_val_ids.pop()
@@ -78,11 +80,21 @@ while remaining_val_ids:  # STRUCTURE FOR RESAMPLING
     print('Training start!')
     gen_model.fit(
         x=train_gen,
-        epochs=5,
+        epochs=1,
         steps_per_epoch=10,
         validation_data=val_gen,
         validation_steps=10,
         verbose=1,
         shuffle=True)
     print('Training Complete')
+    image1 = train_label_images['S34_TA-L1_2']
+    # image2 = train_raw_images['S34_TA-L1_2']
+    # fig1, axs1 = pyplot.subplots(1, 2)
+    # axs1[0].set_title('label')
+    # axs1[1].set_title('raw')
+    # axs1[0].imshow(image1, cmap='gray')
+    # axs1[1].imshow(image2, cmap='gray')
+    pyplot.imshow(image1, cmap='gray')
+    pyplot.show()
     break
+
